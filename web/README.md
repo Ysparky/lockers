@@ -1,4 +1,4 @@
-# casilleros
+# web
 
 ## Project setup
 ```
