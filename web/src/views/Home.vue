@@ -84,6 +84,7 @@ export default {
     openBox(val, oldV) {
       console.log(val, oldV);
       if (!val) return;
+      this.$socket.emit('moveServo', 'L-01 02 03');
       setTimeout(() => (this.openBox = false), 4000);
     },
   },
