@@ -1,4 +1,4 @@
-const app = require("express")();
+const app = require("./app");
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 
@@ -9,7 +9,7 @@ const port = new SerialPort("COM6", { baudRate: 9600 });
 const parser = new Readline({ delimiter: "\n" });
 port.pipe(parser);
 
-port.on("data", (data) => console.log(data));
+port.on("data", (data) => console.log(data.toString()));
 
 io.on("connection", (socket) => {
   console.log("Connected Client");
