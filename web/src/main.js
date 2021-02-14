@@ -4,13 +4,16 @@ import router from './router';
 import store from './store';
 import vuetify from './plugins/vuetify';
 import VueSocketIO from 'vue-socket.io';
+import SocketIO from 'socket.io-client';
+
+const socketConnection = SocketIO('http://localhost:5001');
 
 Vue.config.productionTip = false;
 
 Vue.use(
   new VueSocketIO({
     debug: true,
-    connection: 'http://localhost:5001',
+    connection: socketConnection,
   })
 );
 
