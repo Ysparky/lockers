@@ -65,6 +65,7 @@ export default {
     return {
       showDialog: false,
       selectedPackage: {},
+      timeoutId: '',
       headers: [
         { text: '#', value: 'id' },
         { text: 'PAQUETE', value: 'package' },
@@ -86,7 +87,7 @@ export default {
       this.$router.push('Options');
     },
     setPackages() {
-      this.getPackages.forEach(pack => {
+      this.getPackages.forEach((pack) => {
         if (pack.userId === this.getLoggedUser.id) {
           this.packages.push(pack);
         }
@@ -97,18 +98,19 @@ export default {
       this.selectedPackage = selectedPackage;
     },
     closeBox() {
-      this.showDialog = false;
       const index = this.packages.indexOf(this.selectedPackage);
       if (index != -1) {
         this.packages.splice(index, 1);
       }
+      clearTimeout(this.timeoutId);
+      this.showDialog = false;
     },
   },
   watch: {
     showDialog(val) {
       if (!val) return;
       this.$socket.emit('moveServo', this.selectedPackage.command);
-      setTimeout(() => this.logOut(), 10000);
+      this.timeoutId = setTimeout(() => this.logOut(), 10000);
     },
   },
 };
