@@ -1,6 +1,6 @@
 <template>
   <v-container class="pa-0 no-center" fill-height fluid>
-    <v-dialog v-model="openBox" persistent width="500">
+    <v-dialog v-model="showDialog" persistent width="500">
       <v-card>
         <v-card-text class="text-center pt-5">
           RETIRE SU PAQUETE
@@ -14,6 +14,12 @@
             class="mb-0 mt-2"
           ></v-progress-linear>
         </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="primary" text @click="closeBox">
+            Cerrar Casillero
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
     <v-row justify="center" dense no-gutters>
@@ -39,8 +45,8 @@
           disable-sort
           hide-default-footer
         >
-          <template v-slot:item.action="{}">
-            <v-btn depressed color="primary" @click="openBox = true">
+          <template v-slot:item.action="{ item }">
+            <v-btn depressed color="primary" @click="openBox(item)">
               ABRIR
             </v-btn>
           </template>
@@ -57,7 +63,8 @@ export default {
   components: {},
   data() {
     return {
-      openBox: false,
+      showDialog: false,
+      selectedPackage: {},
       headers: [
         { text: '#', value: 'id' },
         { text: 'PAQUETE', value: 'package' },
@@ -79,18 +86,29 @@ export default {
       this.$router.push('Options');
     },
     setPackages() {
-      this.getPackages.forEach((pack) => {
+      this.getPackages.forEach(pack => {
         if (pack.userId === this.getLoggedUser.id) {
           this.packages.push(pack);
         }
       });
     },
+    openBox(selectedPackage) {
+      this.showDialog = true;
+      this.selectedPackage = selectedPackage;
+    },
+    closeBox() {
+      this.showDialog = false;
+      const index = this.packages.indexOf(this.selectedPackage);
+      if (index != -1) {
+        this.packages.splice(index, 1);
+      }
+    },
   },
   watch: {
-    openBox(val) {
+    showDialog(val) {
       if (!val) return;
-      this.$socket.emit('moveServo', 'L-01 02 03');
-      setTimeout(() => (this.openBox = false), 4000);
+      this.$socket.emit('moveServo', this.selectedPackage.command);
+      setTimeout(() => this.logOut(), 10000);
     },
   },
 };
