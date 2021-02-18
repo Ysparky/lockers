@@ -5,9 +5,7 @@
         <v-card-text class="text-center pt-5">
           RETIRE SU PAQUETE
           <br />
-          <v-chip class="ma-3" color="primary">
-            CASILLERO 1
-          </v-chip>
+          <v-chip class="ma-3" color="primary"> CASILLERO 1 </v-chip>
           <br />
           GRACIAS POR UTILIZAR NUESTRO SERVICIO
           <v-progress-linear
@@ -22,7 +20,9 @@
       <v-col cols="12" style="height: fit-content">
         <v-app-bar color="primary" dense flat>
           <v-spacer />
-          <v-toolbar-title class="white--text"> {{ name }}</v-toolbar-title>
+          <v-toolbar-title class="white--text">
+            {{ getLoggedUser.name }}
+          </v-toolbar-title>
           <v-spacer />
           <v-btn color="white" to="/options" icon>
             <v-icon>mdi-exit-to-app</v-icon>
@@ -51,13 +51,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: 'Home',
   components: {},
   data() {
     return {
       openBox: false,
-      name: 'Alvaro Diaz',
       headers: [
         { text: '#', value: 'id' },
         { text: 'PAQUETE', value: 'package' },
@@ -65,24 +65,29 @@ export default {
         { text: 'UBICACIÓN', value: 'location' },
         { text: 'ACCIÓN', value: 'action' },
       ],
-      packages: [
-        {
-          id: 1,
-          package: 'Compra en Tienda A',
-          detail: 'Set de minitaladro con accesorios',
-          location: 'Casillero 1',
-        },
-      ],
+      packages: [],
     };
   },
+  created() {
+    this.setPackages();
+  },
+  computed: {
+    ...mapGetters(['getUsers', 'getPackages', 'getLoggedUser']),
+  },
   methods: {
-    logOut: function() {
+    logOut() {
       this.$router.push('Options');
+    },
+    setPackages() {
+      this.getPackages.forEach((pack) => {
+        if (pack.userId === this.getLoggedUser.id) {
+          this.packages.push(pack);
+        }
+      });
     },
   },
   watch: {
-    openBox(val, oldV) {
-      console.log(val, oldV);
+    openBox(val) {
       if (!val) return;
       this.$socket.emit('moveServo', 'L-01 02 03');
       setTimeout(() => (this.openBox = false), 4000);
