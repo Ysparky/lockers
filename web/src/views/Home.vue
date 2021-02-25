@@ -6,7 +6,7 @@
           RETIRE SU PAQUETE
           <br />
           <v-chip class="ma-3" color="primary">
-            {{ getLoggedUser.command }}
+            {{ selectedPackage.location }}
           </v-chip>
           <br />
           GRACIAS POR UTILIZAR NUESTRO SERVICIO
@@ -16,12 +16,6 @@
             class="mb-0 mt-2"
           ></v-progress-linear>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" text @click="closeBox">
-            Cerrar Casillero
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
     <v-row justify="center" dense no-gutters>
@@ -87,6 +81,7 @@ export default {
   methods: {
     logOut() {
       this.$router.push('Options');
+      this.$socket.emit('stopListening');
     },
     setPackages() {
       this.getPackages.forEach((pack) => {
@@ -108,11 +103,14 @@ export default {
       this.showDialog = false;
     },
   },
+  mounted() {
+    this.sockets.subscribe('closeLocker', () => this.closeBox());
+  },
   watch: {
     showDialog(val) {
       if (!val) return;
       this.$socket.emit('moveServo', this.selectedPackage.command);
-      this.timeoutId = setTimeout(() => this.logOut(), 10000);
+      this.timeoutId = setTimeout(() => this.logOut(), 30000);
     },
   },
 };
