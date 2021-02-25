@@ -5,7 +5,9 @@
         <v-card-text class="text-center pt-5">
           RETIRE SU PAQUETE
           <br />
-          <v-chip class="ma-3" color="primary"> CASILLERO 1 </v-chip>
+          <v-chip class="ma-3" color="primary">
+            {{ getLoggedUser.command }}
+          </v-chip>
           <br />
           GRACIAS POR UTILIZAR NUESTRO SERVICIO
           <v-progress-linear

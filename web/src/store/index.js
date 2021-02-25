@@ -25,7 +25,7 @@ export default new Vuex.Store({
         package: 'Compra en Tienda A',
         detail: 'Set de minitaladro con accesorios',
         location: 'Casillero 1',
-        command: 'L-01',
+        command: '1',
         userId: 1,
       },
       {
@@ -33,7 +33,7 @@ export default new Vuex.Store({
         package: 'Compra en Tienda B',
         detail: 'Par de zapatillas deportivas marca X',
         location: 'Casillero 2',
-        command: 'L-02',
+        command: '2',
         userId: 2,
       },
       {
@@ -41,7 +41,7 @@ export default new Vuex.Store({
         package: 'Encomienda particular',
         detail: 'Envío de Juliana Caldas desde Miraflores',
         location: 'Casillero 3',
-        command: 'L-03',
+        command: '3',
         userId: 2,
       },
     ],
