@@ -5,6 +5,7 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 import VueSocketIO from 'vue-socket.io';
 import SocketIO from 'socket.io-client';
+import IdleVue from 'idle-vue';
 
 const socketConnection = SocketIO('http://localhost:5001');
 
@@ -16,6 +17,15 @@ Vue.use(
     connection: socketConnection,
   })
 );
+
+const eventsHub = new Vue();
+
+Vue.use(IdleVue, {
+  eventEmitter: eventsHub,
+  idleTime: 10000,
+  store,
+  startAtIdle: false,
+});
 
 new Vue({
   router,

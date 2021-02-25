@@ -59,6 +59,8 @@ export default new Vuex.Store({
   },
   actions: {
     setLoggedUser: (context, user) => context.commit('changeLoggedUser', user),
+    setActiveidle: (context, value) =>
+      context.commit('idleVue/IDLE_CHANGED', value),
   },
   getters: {
     getUsers: state => state.users,

@@ -49,7 +49,7 @@ export default {
     ...mapActions(['setLoggedUser']),
     validateAccount() {
       let userMatch = -1;
-      this.getUsers.forEach((user) => {
+      this.getUsers.forEach(user => {
         let { username, password } = user;
         if (this.username == username && this.password == password) {
           userMatch = user;

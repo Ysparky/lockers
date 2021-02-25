@@ -18,6 +18,7 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <modal-idle v-if="isIdle" v-on:log-out="logOut" />
     <v-row justify="center" dense no-gutters>
       <v-col cols="12" style="height: fit-content">
         <v-app-bar color="primary" dense flat>
@@ -53,10 +54,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
+import ModalIdle from '../components/ModalIdle.vue';
 export default {
   name: 'Home',
-  components: {},
+  components: { ModalIdle },
   data() {
     return {
       showDialog: false,
@@ -77,14 +79,23 @@ export default {
   },
   computed: {
     ...mapGetters(['getUsers', 'getPackages', 'getLoggedUser']),
+    isIdle() {
+      return this.$store.state.idleVue.isIdle;
+    },
   },
   methods: {
+    ...mapActions(['setActiveidle']),
     logOut() {
       this.$router.push('Options');
+    },
+    toggleIdle() {
+      this.showDialog = false;
       this.$socket.emit('stopListening');
+      this.setActiveidle(false);
+      this.setActiveidle(true);
     },
     setPackages() {
-      this.getPackages.forEach((pack) => {
+      this.getPackages.forEach(pack => {
         if (pack.userId === this.getLoggedUser.id) {
           this.packages.push(pack);
         }
@@ -110,7 +121,7 @@ export default {
     showDialog(val) {
       if (!val) return;
       this.$socket.emit('moveServo', this.selectedPackage.command);
-      this.timeoutId = setTimeout(() => this.logOut(), 30000);
+      this.timeoutId = setTimeout(() => this.toggleIdle(), 5000);
     },
   },
 };
