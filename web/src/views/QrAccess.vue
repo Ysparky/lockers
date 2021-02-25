@@ -3,22 +3,19 @@
     <v-row justify="center">
       <v-col cols="4">
         <v-card elevation="10">
-          <v-card-title>
-            <v-spacer />
-            Escanee el QR con su celular
-            <v-spacer />
+          <v-card-title class="text-center">
+            Escanee el QR de su celular para identificarse
           </v-card-title>
           <v-card-text class="text-center">
             <img
-              src="https://borealtech.com/wp-content/uploads/2018/10/codigo-qr-1024x1024.jpg"
+              src="https://streamline-production-bucket.cellar-c2.services.clever-cloud.com/icons/low/subc_M9YctUtkRSwnKjquQFVkDCZi/phone-qr-code-wkbp5bzqutbkhhzn4nen7.png"
               alt="Código QR"
-              width="400"
             />
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="info" to="/">
-              INGRESAR
+            <v-btn color="info" to="/options">
+              REGRESAR
             </v-btn>
             <v-spacer />
           </v-card-actions>
@@ -35,3 +32,4 @@ export default {
   },
 };
 </script>
+	
