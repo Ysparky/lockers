@@ -14,9 +14,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="info" to="/options">
-              REGRESAR
-            </v-btn>
+            <v-btn color="info" to="/options"> REGRESAR </v-btn>
             <v-spacer />
           </v-card-actions>
         </v-card>
@@ -32,3 +30,10 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-card__text,
+.v-card__title {
+  word-break: normal; /* maybe !important  */
+}
+</style>

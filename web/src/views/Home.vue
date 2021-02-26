@@ -64,6 +64,7 @@ export default {
       showDialog: false,
       selectedPackage: {},
       timeoutId: '',
+      shouldLogout: false,
       headers: [
         { text: '#', value: 'id' },
         { text: 'PAQUETE', value: 'package' },
@@ -88,12 +89,6 @@ export default {
     logOut() {
       this.$router.push('Options');
     },
-    toggleIdle() {
-      this.showDialog = false;
-      this.$socket.emit('stopListening');
-      this.setActiveidle(false);
-      this.setActiveidle(true);
-    },
     setPackages() {
       this.getPackages.forEach(pack => {
         if (pack.userId === this.getLoggedUser.id) {
@@ -106,12 +101,17 @@ export default {
       this.selectedPackage = selectedPackage;
     },
     closeBox() {
+      //elimina el paquete seleccionado de la tabla
       const index = this.packages.indexOf(this.selectedPackage);
       if (index != -1) {
         this.packages.splice(index, 1);
       }
-      clearTimeout(this.timeoutId);
       this.showDialog = false;
+      if (this.shouldLogout) {
+        this.logOut();
+      } else {
+        clearTimeout(this.timeoutId);
+      }
     },
   },
   mounted() {
@@ -121,7 +121,12 @@ export default {
     showDialog(val) {
       if (!val) return;
       this.$socket.emit('moveServo', this.selectedPackage.command);
-      this.timeoutId = setTimeout(() => this.toggleIdle(), 5000);
+      this.timeoutId = setTimeout(() => (this.shouldLogout = true), 10000);
+    },
+    isIdle(newVal) {
+      if (newVal && this.showDialog) {
+        this.setActiveidle(false);
+      }
     },
   },
 };

@@ -39,8 +39,6 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("stopListening", () => (lockerIdx = 0));
-
   socket.on("moveServo", (data) => {
     console.log("data received", data);
     let instruction = "L-0" + data + "\n";
