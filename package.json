@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "(cd server && node index.js) & (cd web && npm run serve)",
+    "install": "concurrently \"cd server && npm install\" \"cd web && npm install\"",
     "dev": "concurrently \"cd server && npm run dev\" \"cd web && npm run serve\""
   },
   "repository": {
