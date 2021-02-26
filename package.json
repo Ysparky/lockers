@@ -1,0 +1,24 @@
+{
+  "name": "lockers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "(cd server && node index.js) & (cd web && npm run serve)",
+    "dev": "concurrently \"cd server && npm run dev\" \"cd web && npm run serve\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ysparky/lockers.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ysparky/lockers/issues"
+  },
+  "homepage": "https://github.com/Ysparky/lockers#readme",
+  "dependencies": {
+    "concurrently": "^6.0.0"
+  }
+}
